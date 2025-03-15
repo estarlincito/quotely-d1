@@ -1,0 +1,10 @@
+
+name = "quotely"
+main = "src/index.ts"
+compatibility_date = "2025-03-11"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "quotely"
+database_id = "$DATABASE_ID"

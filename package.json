@@ -1,0 +1,42 @@
+{
+  "name": "quotely-d1",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "pnpm eslint src",
+    "deploy": "pnpm lint && pnpm wrangler deploy",
+    "dev": "pnpm lint && pnpm wrangler dev --port 8000",
+    "test": "vitest",
+    "cf-typegen": "wrangler types"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.7.8",
+    "@cloudflare/workers-types": "^4.20250312.0",
+    "@estarlincito/eslint": "^1.8.0",
+    "@types/node": "^22.13.10",
+    "prisma": "^6.5.0",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.8",
+    "wrangler": "^4.0.0"
+  },
+  "dependencies": {
+    "@estarlincito/utils": "^2.4.2",
+    "@prisma/adapter-d1": "^6.5.0",
+    "@prisma/client": "^6.5.0",
+    "eslint": "^9.22.0",
+    "hono": "^4.7.4",
+    "jose": "^6.0.10",
+    "zod": "^3.24.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "esbuild",
+      "prisma",
+      "sharp",
+      "workerd"
+    ]
+  }
+}
