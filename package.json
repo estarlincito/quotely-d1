@@ -1,6 +1,6 @@
 {
   "name": "quotely-d1",
-  "version": "0.0.0",
+  "version": "v0.1",
   "private": true,
   "type": "module",
   "scripts": {

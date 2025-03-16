@@ -1,16 +1,10 @@
 import { Hono } from 'hono';
 
-import {
-  authorRoute,
-  authorsRoute,
-  createRoute,
-  errorRoute,
-  lastQuoteRoute,
-  quotesRoute,
-  randomQuoteRoute,
-  tagRoute,
-  tagsRoute,
-} from './routes';
+import { authorRoute, authorsRoute } from './routes/authors';
+import { createRoute } from './routes/create';
+import { errorRoute } from './routes/error';
+import { lastQuoteRoute, quotesRoute, randomQuoteRoute } from './routes/quotes';
+import { tagRoute, tagsRoute } from './routes/tags';
 
 const app = new Hono();
 //quote

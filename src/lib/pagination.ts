@@ -1,6 +1,6 @@
 import { resmsg } from '@estarlincito/utils';
 
-import { isNumber } from './zod';
+import { isNumber } from '@/schemas/isNumber';
 
 const getPagination = (url: URL) => {
   let offset: number;
@@ -16,17 +16,13 @@ const getPagination = (url: URL) => {
     limit = Math.min(6, limit);
     offset = Math.max(0, offset);
 
-    return { limit, offset, success: true };
+    return { limit, offset };
   } catch {
-    return {
-      error: resmsg({
-        code: 400,
-        message: 'offset or limit not provided or invalid type.',
-        success: false,
-      }),
-
+    return resmsg({
+      code: 400,
+      message: 'offset or limit not provided or invalid type.',
       success: false,
-    };
+    });
   }
 };
 

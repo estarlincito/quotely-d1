@@ -3,28 +3,40 @@ import { Hono } from 'hono';
 
 import { client } from '@/lib/client';
 import getPagination from '@/lib/pagination';
-import { zQuotes } from '@/lib/zod';
+import { returnSchema } from '@/schemas/return';
+import { quoteSelect } from '@/schemas/select';
 
 export const quotesRoute = new Hono<{ Bindings: Bindings }>();
 
 quotesRoute.get(async (c) => {
   const prisma = client(c.env.DB);
+  //Getting offset and limit
   const url = new URL(c.req.url);
   const pagination = getPagination(url);
 
-  if (!pagination.success) {
-    return pagination.error;
+  if (pagination instanceof Response) {
+    return pagination;
   }
 
   try {
     const quotes = await prisma.quote.findMany({
       orderBy: { addedAt: 'desc' },
-      select: zQuotes.select.quote,
+      select: quoteSelect,
       skip: pagination.offset,
       take: pagination.limit,
     });
 
-    return c.json(zQuotes.return.quotes.parse(quotes));
+    if (quotes.length === 0) {
+      return resmsg({
+        code: 404,
+        message: 'Quotes not found.',
+        success: false,
+      });
+    }
+
+    const count = await prisma.quote.count();
+    const parsedQuotes = returnSchema.quotes.parse({ count, quotes });
+    return c.json(parsedQuotes);
   } catch {
     return resmsg({
       code: 500,

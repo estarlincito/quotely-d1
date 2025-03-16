@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const quote = z.object({
+export const createSchema = z.object({
   addedAt: z.string().optional(),
   authors: z.array(
     z.object({
@@ -20,6 +20,4 @@ export const quote = z.object({
   ),
 });
 
-export type Quote = z.infer<typeof quote>;
-
-export const create = { quote };
+export type CreateType = z.infer<typeof createSchema>;

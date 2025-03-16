@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 import { client } from '@/lib/client';
 import jwtVerify from '@/lib/jwt';
-import { zQuotes } from '@/lib/zod';
+import { createSchema } from '@/schemas/create';
 
 export const createRoute = new Hono<{ Bindings: Bindings }>();
 
@@ -26,20 +26,16 @@ createRoute.post('/create', async (c) => {
   // Checking session
   const auth = await jwtVerify(session, c.env.SECRET);
 
-  if (auth === null) {
-    return resmsg({
-      code: 401,
-      message: 'There was an issue with your session.',
-      success: false,
-    });
+  if (auth instanceof Response) {
+    return auth;
   }
 
   // Getting data
-  let data: z.infer<typeof zQuotes.create.quote>;
+  let data: z.infer<typeof createSchema>;
   try {
     const rawData = z.string().parse(formData.get('quote'));
     const decodeData = decodeURIComponent(rawData);
-    data = zQuotes.create.quote.parse(JSON.parse(decodeData));
+    data = createSchema.parse(JSON.parse(decodeData));
   } catch {
     return resmsg({
       code: 400,
