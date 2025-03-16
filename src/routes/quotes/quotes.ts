@@ -8,7 +8,7 @@ import { quoteSelect } from '@/schemas/select';
 
 export const quotesRoute = new Hono<{ Bindings: Bindings }>();
 
-quotesRoute.get(async (c) => {
+quotesRoute.get('quotes', async (c) => {
   const prisma = client(c.env.DB);
   //Getting offset and limit
   const url = new URL(c.req.url);

@@ -8,7 +8,7 @@ import { tagSelect } from '@/schemas/select';
 
 export const tagRoute = new Hono<{ Bindings: Bindings }>();
 
-tagRoute.get('/tags/:id', async (c) => {
+tagRoute.get('tag/:id', async (c) => {
   const prisma = client(c.env.DB);
   const { id } = c.req.param();
 

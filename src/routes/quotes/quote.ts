@@ -2,32 +2,35 @@ import { resmsg } from '@estarlincito/utils';
 import { Hono } from 'hono';
 
 import { client } from '@/lib/client';
+import { isNumber } from '@/schemas/isNumber';
 import { returnSchema } from '@/schemas/return';
 import { quoteSelect } from '@/schemas/select';
 
-export const lastQuoteRoute = new Hono<{ Bindings: Bindings }>();
+export const quoteRoute = new Hono<{ Bindings: Bindings }>();
 
-lastQuoteRoute.get('last', async (c) => {
+quoteRoute.get('quote/:id', async (c) => {
   const prisma = client(c.env.DB);
+  const { id } = c.req.param();
 
   try {
-    const last = await prisma.quote.findFirst({
-      orderBy: { addedAt: 'desc' },
+    const quote = await prisma.quote.findUnique({
       select: quoteSelect,
+      where: { id: isNumber.parse(id) },
     });
 
-    if (!last) {
+    if (!quote) {
       return resmsg({
         code: 404,
-        message: 'Last quote not found.',
+        message: 'Quote not found.',
         success: false,
       });
     }
-    return c.json(returnSchema.quote.parse(last));
+
+    return c.json(returnSchema.quote.parse(quote));
   } catch {
     return resmsg({
       code: 500,
-      message: 'There was an error fetching last quote.',
+      message: 'There was an error fetching quote.',
       success: false,
     });
   }

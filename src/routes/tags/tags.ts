@@ -8,7 +8,7 @@ import { tagSelect } from '@/schemas/select';
 
 export const tagsRoute = new Hono<{ Bindings: Bindings }>();
 
-tagsRoute.get('/tags', async (c) => {
+tagsRoute.get('tags', async (c) => {
   const prisma = client(c.env.DB);
 
   //Getting offset and limit

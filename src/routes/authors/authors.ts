@@ -8,7 +8,7 @@ import { authorSelect } from '@/schemas/select';
 
 export const authorsRoute = new Hono<{ Bindings: Bindings }>();
 
-authorsRoute.get('/authors', async (c) => {
+authorsRoute.get('authors', async (c) => {
   const prisma = client(c.env.DB);
 
   //Getting offset and limit

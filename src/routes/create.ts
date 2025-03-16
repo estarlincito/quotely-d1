@@ -8,7 +8,7 @@ import { createSchema } from '@/schemas/create';
 
 export const createRoute = new Hono<{ Bindings: Bindings }>();
 
-createRoute.post('/create', async (c) => {
+createRoute.post('create', async (c) => {
   const prisma = client(c.env.DB);
 
   const formData = await c.req.formData();

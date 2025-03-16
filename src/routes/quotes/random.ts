@@ -7,7 +7,7 @@ import { quoteSelect } from '@/schemas/select';
 
 export const randomQuoteRoute = new Hono<{ Bindings: Bindings }>();
 
-randomQuoteRoute.get('/random', async (c) => {
+randomQuoteRoute.get('random', async (c) => {
   const prisma = client(c.env.DB);
   const count = await prisma.quote.count();
 

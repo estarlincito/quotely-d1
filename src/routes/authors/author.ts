@@ -8,7 +8,7 @@ import { authorSelect } from '@/schemas/select';
 
 export const authorRoute = new Hono<{ Bindings: Bindings }>();
 
-authorRoute.get('/authors/:id', async (c) => {
+authorRoute.get('author/:id', async (c) => {
   const { id } = c.req.param();
 
   const prisma = client(c.env.DB);
