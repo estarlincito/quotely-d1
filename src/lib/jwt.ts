@@ -1,4 +1,4 @@
-import { resmsg } from '@estarlincito/utils';
+import { ApiResponse } from '@estarlincito/utils';
 import { jwtVerify as jwtVerify_ } from 'jose';
 import { z } from 'zod';
 
@@ -12,7 +12,7 @@ const jwtVerify = async (session: string | null | File, secretKey: string) => {
     });
     return payload;
   } catch {
-    return resmsg({
+    return ApiResponse.json({
       code: 401,
       message: 'There was an issue with your session.',
       success: false,

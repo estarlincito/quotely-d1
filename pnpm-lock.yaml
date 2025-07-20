@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@estarlincito/utils':
-        specifier: ^2.4.2
-        version: 2.4.2
+        specifier: ^2.5.16
+        version: 2.5.16
       '@prisma/adapter-d1':
         specifier: ^6.5.0
         version: 6.5.0
@@ -616,9 +616,8 @@ packages:
   '@estarlincito/eslint@1.8.0':
     resolution: {integrity: sha512-rPNGIR/o78lhZT5f4GJ+ZI3io057fDHHgTB024zzhspejivvjdzKf7KMki8+htJTOmwlLk11vmRTorzyqkXdbQ==}
 
-  '@estarlincito/utils@2.4.2':
-    resolution: {integrity: sha512-gm1vaR5+1pcKKiWI0BaihKBxgsIRqtJoTFYNHNDNTFPah03OreikAQEQwo+kb7J7HU2X9QbovLnD/HP6J6iYWw==}
-    engines: {node: ^23}
+  '@estarlincito/utils@2.5.16':
+    resolution: {integrity: sha512-BY57t5lpzGSUBqXZSPt1ET7AW/hAJpyBkrUh7HVCOEizTH6Lne9Pl/yJ1lbqjNLaLXUStsYronTgTjC/a6Gsyw==}
 
   '@fastify/busboy@2.1.1':
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
@@ -2208,6 +2207,10 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
+  tyne@1.0.13:
+    resolution: {integrity: sha512-NteQUSA/4LBi8PbIW/PgvcMD/mSX9Sdm6o38EaHAZP96u5UTCXgQtgajjO0Jyz/JPUTcumhFZTEAjz4tPF+k4A==}
+    hasBin: true
+
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
@@ -2780,7 +2783,9 @@ snapshots:
       - jiti
       - supports-color
 
-  '@estarlincito/utils@2.4.2': {}
+  '@estarlincito/utils@2.5.16':
+    dependencies:
+      tyne: 1.0.13
 
   '@fastify/busboy@2.1.1': {}
 
@@ -4637,6 +4642,8 @@ snapshots:
       strip-bom: 3.0.0
 
   tslib@2.8.1: {}
+
+  tyne@1.0.13: {}
 
   type-check@0.4.0:
     dependencies:

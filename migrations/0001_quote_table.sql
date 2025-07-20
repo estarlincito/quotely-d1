@@ -15,6 +15,7 @@ CREATE TABLE "Quote" (
 CREATE TABLE "Author" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name" TEXT NOT NULL,
+    "slug" TEXT NOT NULL DEFAULT '',
     "bio" TEXT
 );
 
@@ -54,6 +55,9 @@ CREATE TABLE "_QuoteAuthors" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Author_name_key" ON "Author"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Author_slug_key" ON "Author"("slug");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "SourceName_name_key" ON "SourceName"("name");

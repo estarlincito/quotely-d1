@@ -1,29 +1,16 @@
-import { resmsg } from '@estarlincito/utils';
+const getPagination = (url: URL, isAdmin: boolean) => {
+  const offsetParam = url.searchParams.get('offset') ?? '0';
+  const limitParam = url.searchParams.get('limit') ?? '6';
 
-import { isNumber } from '@/schemas/isNumber';
+  const offset = Number.isNaN(Number(offsetParam)) ? 0 : parseInt(offsetParam);
+  let limit = Number.isNaN(Number(limitParam)) ? 6 : parseInt(limitParam);
 
-const getPagination = (url: URL) => {
-  let offset: number;
-  let limit: number;
-
-  const offsetParam = url.searchParams.get('offset');
-  const limitParam = url.searchParams.get('limit');
-
-  try {
-    offset = offsetParam ? isNumber.parse(offsetParam) : 0;
-    limit = limitParam ? isNumber.parse(limitParam) : 6;
-    limit = Math.max(0, limit);
-    limit = Math.min(6, limit);
-    offset = Math.max(0, offset);
-
+  if (isAdmin) {
     return { limit, offset };
-  } catch {
-    return resmsg({
-      code: 400,
-      message: 'offset or limit not provided or invalid type.',
-      success: false,
-    });
   }
+
+  limit = Math.max(0, Math.min(6, limit));
+  return { limit, offset };
 };
 
 export default getPagination;

@@ -1,9 +1,8 @@
-import { resmsg } from '@estarlincito/utils';
+import { ApiResponse } from '@estarlincito/utils';
 import { Hono } from 'hono';
 
 import { client } from '@/lib/client';
-import { returnSchema } from '@/schemas/return';
-import { quoteSelect } from '@/schemas/select';
+import { select } from '@/lib/select';
 
 export const lastQuoteRoute = new Hono<{ Bindings: Bindings }>();
 
@@ -13,19 +12,19 @@ lastQuoteRoute.get('last', async (c) => {
   try {
     const last = await prisma.quote.findFirst({
       orderBy: { addedAt: 'desc' },
-      select: quoteSelect,
+      select: select.quote,
     });
 
     if (!last) {
-      return resmsg({
+      return ApiResponse.json({
         code: 404,
         message: 'Last quote not found.',
         success: false,
       });
     }
-    return c.json(returnSchema.quote.parse(last));
+    return c.json(last);
   } catch {
-    return resmsg({
+    return ApiResponse.json({
       code: 500,
       message: 'There was an error fetching last quote.',
       success: false,

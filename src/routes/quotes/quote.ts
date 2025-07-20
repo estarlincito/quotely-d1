@@ -1,10 +1,8 @@
-import { resmsg } from '@estarlincito/utils';
+import { ApiResponse } from '@estarlincito/utils';
 import { Hono } from 'hono';
 
 import { client } from '@/lib/client';
-import { isNumber } from '@/schemas/isNumber';
-import { returnSchema } from '@/schemas/return';
-import { quoteSelect } from '@/schemas/select';
+import { select } from '@/lib/select';
 
 export const quoteRoute = new Hono<{ Bindings: Bindings }>();
 
@@ -14,21 +12,21 @@ quoteRoute.get('quote/:id', async (c) => {
 
   try {
     const quote = await prisma.quote.findUnique({
-      select: quoteSelect,
-      where: { id: isNumber.parse(id) },
+      select: select.quote,
+      where: { id: parseInt(id) },
     });
 
     if (!quote) {
-      return resmsg({
+      return ApiResponse.json({
         code: 404,
         message: 'Quote not found.',
         success: false,
       });
     }
 
-    return c.json(returnSchema.quote.parse(quote));
+    return c.json(quote);
   } catch {
-    return resmsg({
+    return ApiResponse.json({
       code: 500,
       message: 'There was an error fetching quote.',
       success: false,

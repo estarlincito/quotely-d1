@@ -25,6 +25,7 @@ model Quote {
 model Author {
   id     Int     @id @default(autoincrement())
   name   String  @unique
+  slug   String  @unique @default("")
   bio    String?
   quotes Quote[] @relation("QuoteAuthors")
 }

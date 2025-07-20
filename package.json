@@ -4,11 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "pnpm eslint src",
+    "lint": "pnpm eslint . --fix",
     "deploy": "pnpm lint && pnpm wrangler deploy",
     "dev": "pnpm lint && pnpm wrangler dev --port 8000",
     "test": "vitest",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "check-types": "tsc --noEmit"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.7.8",
@@ -21,7 +22,7 @@
     "wrangler": "^4.0.0"
   },
   "dependencies": {
-    "@estarlincito/utils": "^2.4.2",
+    "@estarlincito/utils": "^2.5.16",
     "@prisma/adapter-d1": "^6.5.0",
     "@prisma/client": "^6.5.0",
     "eslint": "^9.22.0",

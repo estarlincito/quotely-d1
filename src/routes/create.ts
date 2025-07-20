@@ -1,4 +1,4 @@
-import { resmsg } from '@estarlincito/utils';
+import { ApiResponse, toSlug } from '@estarlincito/utils';
 import { Hono } from 'hono';
 import { z } from 'zod';
 
@@ -17,7 +17,7 @@ createRoute.post('create', async (c) => {
   try {
     session = z.string().parse(formData.get('session'));
   } catch {
-    return resmsg({
+    return ApiResponse.json({
       code: 400,
       message: 'Session not provided or invalid type.',
       success: false,
@@ -37,7 +37,7 @@ createRoute.post('create', async (c) => {
     const decodeData = decodeURIComponent(rawData);
     data = createSchema.parse(JSON.parse(decodeData));
   } catch {
-    return resmsg({
+    return ApiResponse.json({
       code: 400,
       message: 'Quote not provided or invalid type.',
       success: false,
@@ -65,7 +65,7 @@ createRoute.post('create', async (c) => {
       Promise.all(
         data.authors.map(({ name, bio }) =>
           prisma.author.upsert({
-            create: { bio, name },
+            create: { bio, name, slug: toSlug(name) },
             update: {},
             where: { name },
           }),
@@ -103,13 +103,13 @@ createRoute.post('create', async (c) => {
       },
     });
 
-    return resmsg({
+    return ApiResponse.json({
       code: 200,
       message: 'Quote added successfully',
       success: true,
     });
   } catch {
-    return resmsg({
+    return ApiResponse.json({
       code: 500,
       message: 'Quote creation failed. Please try again.',
       success: false,

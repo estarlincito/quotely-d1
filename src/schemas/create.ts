@@ -6,6 +6,7 @@ export const createSchema = z.object({
     z.object({
       bio: z.string().optional(),
       name: z.string(),
+      slug: z.string().optional(),
     }),
   ),
   quote: z.string(),

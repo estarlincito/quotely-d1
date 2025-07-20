@@ -1,9 +1,8 @@
-import { resmsg } from '@estarlincito/utils';
+import { ApiResponse } from '@estarlincito/utils';
 import { Hono } from 'hono';
 
 import { client } from '@/lib/client';
-import { returnSchema } from '@/schemas/return';
-import { quoteSelect } from '@/schemas/select';
+import { select } from '@/lib/select';
 
 export const randomQuoteRoute = new Hono<{ Bindings: Bindings }>();
 
@@ -13,21 +12,21 @@ randomQuoteRoute.get('random', async (c) => {
 
   try {
     const random = await prisma.quote.findFirst({
-      select: quoteSelect,
+      select: select.quote,
       skip: Math.floor(Math.random() * count),
     });
 
     if (!random) {
-      return resmsg({
+      return ApiResponse.json({
         code: 404,
         message: 'Random quote not found.',
         success: false,
       });
     }
 
-    return c.json(returnSchema.quote.parse(random));
+    return c.json(random);
   } catch {
-    return resmsg({
+    return ApiResponse.json({
       code: 500,
       message: 'There was an error fetching random quote.',
       success: false,
