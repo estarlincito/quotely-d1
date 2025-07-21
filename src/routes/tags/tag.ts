@@ -24,8 +24,8 @@ tagRoute.get('tag/:id', async (c) => {
 
     if (!tag) {
       return ApiResponse.json({
-        code: 404,
         message: 'Tag not found.',
+        status: 404,
         success: false,
       });
     }
@@ -37,8 +37,8 @@ tagRoute.get('tag/:id', async (c) => {
     return c.json({ count, tag });
   } catch {
     return ApiResponse.json({
-      code: 500,
       message: 'There was an error fetching tag.',
+      status: 500,
       success: false,
     });
   }

@@ -18,8 +18,8 @@ randomQuoteRoute.get('random', async (c) => {
 
     if (!random) {
       return ApiResponse.json({
-        code: 404,
         message: 'Random quote not found.',
+        status: 404,
         success: false,
       });
     }
@@ -27,8 +27,8 @@ randomQuoteRoute.get('random', async (c) => {
     return c.json(random);
   } catch {
     return ApiResponse.json({
-      code: 500,
       message: 'There was an error fetching random quote.',
+      status: 500,
       success: false,
     });
   }

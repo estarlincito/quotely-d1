@@ -17,16 +17,16 @@ lastQuoteRoute.get('last', async (c) => {
 
     if (!last) {
       return ApiResponse.json({
-        code: 404,
         message: 'Last quote not found.',
+        status: 404,
         success: false,
       });
     }
     return c.json(last);
   } catch {
     return ApiResponse.json({
-      code: 500,
       message: 'There was an error fetching last quote.',
+      status: 500,
       success: false,
     });
   }

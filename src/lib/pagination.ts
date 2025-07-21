@@ -6,11 +6,11 @@ const getPagination = (url: URL, isAdmin: boolean) => {
   let limit = Number.isNaN(Number(limitParam)) ? 6 : parseInt(limitParam);
 
   if (isAdmin) {
-    return { limit, offset };
+    return { limit: Math.min(limit, 100), offset };
   }
 
   limit = Math.max(0, Math.min(6, limit));
-  return { limit, offset };
+  return { limit: Math.min(limit, 100), offset };
 };
 
 export default getPagination;

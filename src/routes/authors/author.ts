@@ -24,8 +24,8 @@ authorRoute.get('author/:id', async (c) => {
 
     if (!author) {
       return ApiResponse.json({
-        code: 404,
         message: 'Author not found.',
+        status: 404,
         success: false,
       });
     }
@@ -36,8 +36,8 @@ authorRoute.get('author/:id', async (c) => {
     return c.json({ author, count });
   } catch {
     return ApiResponse.json({
-      code: 500,
       message: 'There was an error fetching author.',
+      status: 500,
       success: false,
     });
   }

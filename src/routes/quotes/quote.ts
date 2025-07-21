@@ -18,8 +18,8 @@ quoteRoute.get('quote/:id', async (c) => {
 
     if (!quote) {
       return ApiResponse.json({
-        code: 404,
         message: 'Quote not found.',
+        status: 404,
         success: false,
       });
     }
@@ -27,8 +27,8 @@ quoteRoute.get('quote/:id', async (c) => {
     return c.json(quote);
   } catch {
     return ApiResponse.json({
-      code: 500,
       message: 'There was an error fetching quote.',
+      status: 500,
       success: false,
     });
   }

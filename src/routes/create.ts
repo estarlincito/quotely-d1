@@ -18,8 +18,8 @@ createRoute.post('create', async (c) => {
     session = z.string().parse(formData.get('session'));
   } catch {
     return ApiResponse.json({
-      code: 400,
       message: 'Session not provided or invalid type.',
+      status: 400,
       success: false,
     });
   }
@@ -38,8 +38,8 @@ createRoute.post('create', async (c) => {
     data = createSchema.parse(JSON.parse(decodeData));
   } catch {
     return ApiResponse.json({
-      code: 400,
       message: 'Quote not provided or invalid type.',
+      status: 400,
       success: false,
     });
   }
@@ -104,14 +104,14 @@ createRoute.post('create', async (c) => {
     });
 
     return ApiResponse.json({
-      code: 200,
       message: 'Quote added successfully',
+      status: 200,
       success: true,
     });
   } catch {
     return ApiResponse.json({
-      code: 500,
       message: 'Quote creation failed. Please try again.',
+      status: 500,
       success: false,
     });
   }

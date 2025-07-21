@@ -23,8 +23,8 @@ quotesRoute.get('quotes', async (c) => {
 
     if (quotes.length === 0) {
       return ApiResponse.json({
-        code: 404,
         message: 'Quotes not found.',
+        status: 404,
         success: false,
       });
     }
@@ -34,8 +34,8 @@ quotesRoute.get('quotes', async (c) => {
     return c.json({ count, quotes });
   } catch {
     return ApiResponse.json({
-      code: 500,
       message: 'There was an error fetching quotes.',
+      status: 500,
       success: false,
     });
   }

@@ -13,8 +13,8 @@ const jwtVerify = async (session: string | null | File, secretKey: string) => {
     return payload;
   } catch {
     return ApiResponse.json({
-      code: 401,
       message: 'There was an issue with your session.',
+      status: 401,
       success: false,
     });
   }

@@ -25,8 +25,8 @@ tagsRoute.get('tags', async (c) => {
 
     if (tags.length === 0) {
       return ApiResponse.json({
-        code: 404,
         message: 'Tags not found.',
+        status: 404,
         success: false,
       });
     }
@@ -35,8 +35,8 @@ tagsRoute.get('tags', async (c) => {
     return c.json({ count, tags });
   } catch {
     return ApiResponse.json({
-      code: 500,
       message: 'There was an error fetching tags.',
+      status: 500,
       success: false,
     });
   }

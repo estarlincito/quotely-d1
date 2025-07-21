@@ -24,8 +24,8 @@ authorsRoute.get('authors', async (c) => {
 
     if (authors.length === 0) {
       return ApiResponse.json({
-        code: 404,
         message: 'Authors not found.',
+        status: 404,
         success: false,
       });
     }
@@ -34,8 +34,8 @@ authorsRoute.get('authors', async (c) => {
     return c.json({ authors, count });
   } catch {
     return ApiResponse.json({
-      code: 500,
       message: 'There was an error fetching authors.',
+      status: 500,
       success: false,
     });
   }
