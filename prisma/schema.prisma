@@ -1,49 +1,187 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+    provider        = "prisma-client-js"
+    previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
 }
 
 model Quote {
-  id           Int        @id @default(autoincrement())
-  quote        String
-  sourceNameId Int
-  sourceName   SourceName @relation(fields: [sourceNameId], references: [id])
-  sourceTypeId Int
-  sourceType   SourceType @relation(fields: [sourceTypeId], references: [id])
-  reference    String
-  sourceUrl    String
-  addedAt      DateTime   @default(now())
-  authors      Author[]   @relation("QuoteAuthors")
-  tags         Tag[]      @relation("QuoteTags")
+    id           Int                @id @default(autoincrement())
+    uuid         String             @unique @default(cuid())
+    addedAt      DateTime           @default(now())
+    updatedAt    DateTime           @updatedAt()
+    authors      Author[]           @relation("QuoteAuthors")
+    tags         Tag[]              @relation("QuoteTags")
+    sourceUrl    String
+    translations QuoteTranslation[]
+    isDeleted    Boolean            @default(false)
+    deletedAt    DateTime?
+
+    @@index([addedAt])
+    @@index([uuid])
+    @@index([isDeleted])
+    @@map("quotes")
+}
+
+model QuoteTranslation {
+    id           Int        @id @default(autoincrement())
+    uuid         String     @unique @default(cuid())
+    text         String
+    reference    String?
+    language     String
+    quoteId      Int
+    quote        Quote      @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+    sourceName   SourceName @relation(fields: [sourceNameId], references: [id])
+    sourceNameId Int
+    sourceType   SourceType @relation(fields: [sourceTypeId], references: [id])
+    sourceTypeId Int
+    createdAt    DateTime   @default(now())
+    updatedAt    DateTime   @updatedAt()
+
+    @@unique([quoteId, language])
+    @@index([language])
+    @@index([sourceNameId])
+    @@index([sourceTypeId])
+    @@index([createdAt])
+    @@map("quote_translations")
 }
 
 model Author {
-  id     Int     @id @default(autoincrement())
-  name   String  @unique
-  slug   String  @unique @default("")
-  bio    String?
-  quotes Quote[] @relation("QuoteAuthors")
+    id           Int                 @id @default(autoincrement())
+    uuid         String              @unique @default(cuid())
+    slug         String              @unique
+    name         String
+    avatar       String
+    quotes       Quote[]             @relation("QuoteAuthors")
+    translations AuthorTranslation[]
+    isDeleted    Boolean             @default(false)
+    deletedAt    DateTime?
+
+    @@index([slug])
+    @@index([isDeleted])
+    @@map("authors")
+}
+
+model AuthorTranslation {
+    id        Int      @id @default(autoincrement())
+    uuid      String   @unique @default(cuid())
+    bio       String
+    language  String
+    authorId  Int
+    author    Author   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+
+    @@unique([authorId, language])
+    @@index([language])
+    @@map("author_translations")
 }
 
 model SourceName {
-  id     Int     @id @default(autoincrement())
-  name   String  @unique
-  quotes Quote[]
+    id                Int                     @id @default(autoincrement())
+    uuid              String                  @unique @default(cuid())
+    translations      SourceNameTranslation[]
+    quoteTranslations QuoteTranslation[]
+    isDeleted         Boolean                 @default(false)
+    deletedAt         DateTime?
+
+    @@map("source_names")
+}
+
+model SourceNameTranslation {
+    id           Int        @id @default(autoincrement())
+    uuid         String     @unique @default(cuid())
+    name         String
+    language     String
+    sourceNameId Int
+    sourceName   SourceName @relation(fields: [sourceNameId], references: [id], onDelete: Cascade)
+    createdAt    DateTime   @default(now())
+    updatedAt    DateTime   @updatedAt()
+
+    @@unique([sourceNameId, language])
+    @@index([language])
+    @@map("source_name_translations")
 }
 
 model SourceType {
-  id     Int     @id @default(autoincrement())
-  name   String  @unique
-  quotes Quote[]
+    id                Int                     @id @default(autoincrement())
+    uuid              String                  @unique @default(cuid())
+    translations      SourceTypeTranslation[]
+    quoteTranslations QuoteTranslation[]
+    isDeleted         Boolean                 @default(false)
+    deletedAt         DateTime?
+
+    @@map("source_types")
+}
+
+model SourceTypeTranslation {
+    id           Int        @id @default(autoincrement())
+    uuid         String     @unique @default(cuid())
+    name         String
+    language     String
+    sourceTypeId Int
+    sourceType   SourceType @relation(fields: [sourceTypeId], references: [id], onDelete: Cascade)
+    createdAt    DateTime   @default(now())
+    updatedAt    DateTime   @updatedAt()
+
+    @@unique([sourceTypeId, language])
+    @@index([language])
+    @@map("source_type_translations")
 }
 
 model Tag {
-  id     Int     @id @default(autoincrement())
-  name   String  @unique
-  quotes Quote[] @relation("QuoteTags")
+    id           Int              @id @default(autoincrement())
+    uuid         String           @unique @default(cuid())
+    slug         String           @unique
+    quotes       Quote[]          @relation("QuoteTags")
+    translations TagTranslation[]
+    isDeleted    Boolean          @default(false)
+    deletedAt    DateTime?
+
+    @@index([slug])
+    @@index([isDeleted])
+    @@map("tags")
+}
+
+model TagTranslation {
+    id        Int      @id @default(autoincrement())
+    uuid      String   @unique @default(cuid())
+    name      String
+    language  String
+    tagId     Int
+    tag       Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt()
+
+    @@unique([tagId, language])
+    @@index([language])
+    @@map("tag_translations")
+}
+
+// Additional table to manage supported languages
+model SupportedLanguage {
+    id        Int      @id @default(autoincrement())
+    uuid      String   @unique @default(cuid())
+    code      String   @unique
+    name      String
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+
+    @@map("supported_languages")
+}
+
+// "Table for caching frequent queries"
+model QueryCache {
+    id        Int      @id @default(autoincrement())
+    key       String   @unique
+    value     String // Table for caching frequent queries
+    expiresAt DateTime
+    createdAt DateTime @default(now())
+
+    @@index([expiresAt])
+    @@index([key])
+    @@map("query_cache")
 }

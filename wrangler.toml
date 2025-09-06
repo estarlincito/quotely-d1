@@ -7,4 +7,4 @@ compatibility_flags = ["nodejs_compat"]
 [[d1_databases]]
 binding = "DB"
 database_name = "quotely"
-database_id = "ecb18634-8f0f-4a5b-b8d2-9002363f093c"
+database_id = "7763e942-1c7b-45fd-9a0a-04c2d031938b"

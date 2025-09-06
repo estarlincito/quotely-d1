@@ -1,9 +1,12 @@
 export {};
 
 declare global {
-  interface Bindings {
+  interface Env {
     DB: D1Database;
     SECRET: string;
-    ADMIN_TOKEN: string;
+  }
+  interface C {
+    req: Request;
+    env: Env;
   }
 }

@@ -6,8 +6,10 @@ export default [
   {
     languageOptions: {
       globals: {
-        Bindings: 'readonly',
+        C: 'readonly',
         D1Database: 'readonly',
+        ExportedHandler: 'readonly',
+        Env: 'readonly',
       },
     },
   },

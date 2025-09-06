@@ -1,48 +1,43 @@
-/* eslint-disable prettier/prettier */
-const base = {
+export const getSelect = (language = 'en') => ({
   addedAt: true,
-  authors: { select: { bio: true, id: true, name: true, slug: true } },
+  authors: {
+    select: {
+      avatar: true,
+      name: true,
+      slug: true,
+      translations: {
+        select: { bio: true },
+        where: { language },
+      },
+    },
+  },
   id: true,
-  quote: true,
-  reference: true,
-  sourceName: {
-    select: {
-      name: true,
-    },
-  },
-  sourceType: {
-    select: {
-      name: true,
-    },
-  },
   sourceUrl: true,
-  tags: { select: { id: true, name: true } },
-};
-
-const tag = (offset: number, limit: number) =>
-  ({
-    id: true,
-    name: true,
-    quotes: {
-      orderBy: { id: 'desc' },
-      select: base,
-      skip: offset,
-      take: limit,
+  tags: {
+    select: {
+      slug: true,
+      translations: {
+        select: { name: true },
+        where: { language },
+      },
     },
-  } as const);
-
-const author = (offset = 0, limit = 6) =>
-  ({
-    bio: true,
-    id: true,
-    name: true,
-    quotes: {
-      orderBy: { id: 'desc' },
-      select: base,
-      skip: offset,
-      take: limit,
+  },
+  translations: {
+    select: {
+      language: true,
+      reference: true,
+      sourceName: {
+        select: {
+          translations: { select: { name: true }, where: { language } },
+        },
+      },
+      sourceType: {
+        select: {
+          translations: { select: { name: true }, where: { language } },
+        },
+      },
+      text: true,
     },
-    slug: true,
-  } as const);
-
-export const select = { author, quote: base, tag };
+    where: { language },
+  },
+});

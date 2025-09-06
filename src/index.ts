@@ -1,36 +1,23 @@
-import { Hono } from 'hono';
+import { Resuponsu } from 'resuponsu';
 
-import { authorRoute, authorsRoute } from './routes/authors';
-import { createRoute } from './routes/create';
-import { errorRoute } from './routes/error';
-import {
-  lastQuoteRoute,
-  quoteRoute,
-  quotesRoute,
-  randomQuoteRoute,
-} from './routes/quotes';
-import { tagRoute, tagsRoute } from './routes/tags';
+import { create } from './lib/create';
+import { quotes } from './lib/quotes';
 
-const app = new Hono();
+export default {
+  async fetch(req, env): Promise<Response> {
+    const { pathname } = new URL(req.url);
 
-/* Quotes Routes */
-app.route('/', quotesRoute); // GET /quotes?offset=0&limit=6
-app.route('/', quoteRoute); // GET /quote/1
-app.route('/', lastQuoteRoute); // GET /last
-app.route('/', randomQuoteRoute); // GET /random
+    if (pathname === '/api/quotes') {
+      return await quotes({ env, req });
+    }
 
-/* Tags Routes */
-app.route('/', tagRoute); // GET /tag/self-help
-app.route('/', tagsRoute); // GET /tags?offset=0&limit=6
-
-/* Authors Routes */
-app.route('/', authorsRoute); // GET /authors?offset=0&limit=6
-app.route('/', authorRoute); // GET /author/rem
-
-/* Create Routes */
-app.route('/', createRoute); // POST /create
-
-/* Error Route */
-app.route('/', errorRoute);
-
-export default app;
+    if (pathname === '/api/create') {
+      return await create({ env, req });
+    }
+    return Resuponsu.json({
+      message: 'Page not found.',
+      status: 404,
+      success: false,
+    });
+  },
+} satisfies ExportedHandler<Env>;
