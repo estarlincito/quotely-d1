@@ -10,6 +10,7 @@ const jwtVerify = async (session: string | null | File, secretKey: string) => {
     const { payload } = await jwtVerify_(session_, key, {
       algorithms: ['HS256'],
     });
+
     return payload;
   } catch {
     return ApiResponse.json({

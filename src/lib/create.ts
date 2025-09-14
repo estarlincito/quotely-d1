@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import { toSlug } from '@estarlincito/utils';
 import { Resuponsu } from 'resuponsu';
 
@@ -166,22 +167,20 @@ export const create = async (c: C) => {
         where: { slug },
       });
 
-      if (!existingAuthor) {
-        // Create new author
-        existingAuthor = await prisma.author.create({
-          data: {
-            avatar: author.avatar,
-            name: author.name,
-            slug,
-            translations: {
-              create: [
-                { bio: author.bio.en, language: 'en' },
-                { bio: author.bio.es, language: 'es' },
-              ],
-            },
+      // Create new author
+      existingAuthor ??= await prisma.author.create({
+        data: {
+          avatar: author.avatar,
+          name: author.name,
+          slug,
+          translations: {
+            create: [
+              { bio: author.bio.en, language: 'en' },
+              { bio: author.bio.es, language: 'es' },
+            ],
           },
-        });
-      }
+        },
+      });
 
       authorIds.push(existingAuthor.id);
     }

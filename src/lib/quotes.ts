@@ -11,14 +11,14 @@ export const quotes = async (c: C) => {
   const take = 6;
 
   try {
-    const quotes = await prisma.quote.findMany({
+    const quotesData = await prisma.quote.findMany({
       orderBy: { addedAt: 'desc' },
       select: getSelect(language),
       skip: (page - 1) * take,
       take,
     });
 
-    if (quotes.length === 0) {
+    if (quotesData.length === 0) {
       return Resuponsu.json({
         message: 'Quotes not found.',
         status: 404,
@@ -26,7 +26,7 @@ export const quotes = async (c: C) => {
       });
     }
 
-    return Response.json(serializeQuote(quotes));
+    return Response.json(serializeQuote(quotesData));
   } catch {
     return Resuponsu.json({
       message: 'There was an error fetching quotes.',

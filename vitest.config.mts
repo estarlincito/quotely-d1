@@ -1,12 +1,11 @@
-/* eslint-disable import/no-unresolved */
 import { defineWorkersConfig } from '@cloudflare/vitest-pool-workers/config';
 
 export default defineWorkersConfig({
-	test: {
-		poolOptions: {
-			workers: {
-				wrangler: { configPath: 'wrangler.toml' },
-			},
-		},
-	},
+  test: {
+    poolOptions: {
+      workers: {
+        wrangler: { configPath: 'wrangler.toml' },
+      },
+    },
+  },
 });

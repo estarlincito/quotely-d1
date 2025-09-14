@@ -1,11 +1,10 @@
 {
   "name": "quotely-d1",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "pnpm eslint . --fix",
-    "deploy": "pnpm lint && pnpm wrangler deploy",
+    "lint": "ulint . --fix",
     "dev": "wrangler dev --port 8000",
     "clean": "rm -rf .wrangler && wrangler d1 migrations apply DB --local",
     "test": "vitest",
@@ -15,10 +14,11 @@
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.7.8",
     "@cloudflare/workers-types": "^4.20250312.0",
-    "@estarlincito/eslint": "^1.8.0",
     "@types/node": "^22.13.10",
+    "lenv": "^0.0.2",
     "prisma": "^6.15.0",
     "typescript": "^5.8.2",
+    "ulint": "^0.0.2",
     "vitest": "^3.0.8",
     "wrangler": "^4.33.0"
   },
@@ -26,9 +26,7 @@
     "@estarlincito/utils": "^2.5.16",
     "@prisma/adapter-d1": "^6.15.0",
     "@prisma/client": "^6.15.0",
-    "eslint": "^9.22.0",
     "fecchi": "^0.0.1",
-    "hono": "^4.7.4",
     "jose": "^6.0.10",
     "resuponsu": "^0.0.1",
     "zod": "^3.25.67"
@@ -40,6 +38,7 @@
       "esbuild",
       "prisma",
       "sharp",
+      "unrs-resolver",
       "workerd"
     ]
   }

@@ -34,9 +34,10 @@ export interface QuoteReturn {
 }
 
 export const serializeQuote = (quotes: QuoteReturn[]) =>
-  quotes.map(({ authors, translations, tags, ...rest }) => {
+  quotes.map(({ authors, tags, ...rest }) => {
     const { sourceName, sourceType, text, ...restTranslations } =
-      translations[0];
+      rest.translations[0];
+
     return {
       authors: authors.map(({ name, slug, avatar, translations }, i) => ({
         ...translations[i],
